@@ -121,17 +121,13 @@ def uied(input_path_img=None, output_root=None):
 
 def ui2code_pipeline(input_path_img, output_root, **key_params):
     from utils import layout, detect_lines, page_layout_divider, code_gen
-    from utils.eval import geckodriver
-    from utils.experiment import baseline
 
     is_uied = key_params['is_uied']
     is_layout = key_params['is_layout']
     is_lines = key_params['is_lines']
     is_divide = key_params['is_divide']
     is_global_gen = key_params['is_global_gen']
-    # is_screenshot = key_params["is_screenshot"]
-    # is_direct_prompt = key_params["is_direct_prompt"]
-
+    
     start = time.process_time()
 
     # 识别text、non-text
@@ -147,10 +143,6 @@ def ui2code_pipeline(input_path_img, output_root, **key_params):
     is_divide and page_layout_divider.divide_layout(input_path_img, output_root)
     # 布局分割线=>mask=>json=>layout html
     is_global_gen and code_gen.make_layout_code(input_path_img, output_root, force=False)  # force不强制更新本地json数据
-    # # 对生成的html截图（ours）
-    # is_screenshot and geckodriver.web_screenshot(input_path_img, output_root)
-    # # cot prompt生成html，并截图❎
-    # is_direct_prompt and baseline.direct_prompt(input_path_img, output_root)
 
     print("[UI2Code Pipeline Completed in %.3f s]\n" % (time.process_time() - start))
 
